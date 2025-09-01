@@ -1,0 +1,144 @@
+from __future__ import annotations
+
+if __name__ == "__main__":
+    
+    # ## Numpy Assignment
+    # 
+    # 
+    # ### University of Virginia
+    # ### Programming for Data Science
+    # ---
+    # ### Instructions
+    # DO NOT PRINT ANYTHING WHEN SUBMITTING except the final JSON that is already provided at the bottom of this file.
+    # Use the exact variable names listed below. The autograder reads these variables and then prints the final JSON.
+    # 
+    # Use the **numpy** package to perform analysis on forest fire data.  
+    # Background: while **pandas** is convenient for tables of data with mixed type, it can be much slower than numpy.  
+    # For numeric data, it can often be very efficient to compute directly with numpy.
+    # 
+    # ### TOTAL POINTS: 14
+    # ---
+    import numpy as np
+    import pandas as pd
+    # #### Read in the dataset from the UCI Machine Learning Repository  
+    path_to_data = "https://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv"
+    fire = pd.read_csv(path_to_data)
+    
+    # 1) **(1 PT)** Select columns of interest (`cols_to_keep`) and save as numpy array called `arr`.   
+    # **Store final result in variable:** `arr`
+    
+    cols_to_keep = ['temp','wind','rain','area']
+    arr = fire[cols_to_keep].values
+    
+    ## Note : arr = df[columns].to_numpy() - another way to convert pandas dataframe to numpy array
+    
+    # 2) **(1 PT)** Store the shape of the array.  
+    # **Store final result in variable:** `arr_shape`
+    
+    arr_shape = arr.shape
+
+    
+    # 3) **(1 PT)** Subset into `arr` and store: all rows, first two columns  
+    # **Store final result in variable:** `arr_subset`
+    
+    arr_subset = arr[:, 0:2]
+
+    ## Note : array[row_start:row_end, column_start:column_end] - numpy array slicing
+    
+    # 4) **(1 PT)** Transpose `arr`, store the transpose, and store the shape of the transpose  
+    # **Store transpose shape in variable:** `arr_transpose_shape`  
+    # *(Optional: store the transpose itself in `arr_transpose` if needed)*
+    
+    arr_transpose = arr.T # Transpose of the array
+    arr_transpose_shape = arr_transpose.shape  # Shape of the transposed array
+
+    
+    # 5) **(1 PT)** Compute the square root of the first column of `arr` and save in variable `z`.  
+    # Make sure `z` is a 1-D array (shape (517,)), not a column vector with shape (517,1).  
+    # **Store final result in variable:** `z`
+
+    z = np.sqrt(arr[:, 0])  # Square root of the first column
+    z = z.flatten()  # Ensure z is a 1-D array
+     
+    # 6) **(1 PT)** Create an identity matrix of shape (517,517), calling it `eye` and storing it.  
+    # **Store final result in variable:** `eye`
+
+    eye = np.eye(517)  # Identity matrix of shape (517, 517)
+    
+    # 7) **(1 PT)** Compute matrix product: `eye*z`, calling it `ez`. Store the product, and check if the result makes sense.  
+    # **Store final result in variable:** `ez`
+
+    np.matmul(eye, z)  # Matrix product of eye and z
+    ez = np.matmul(eye, z) # Store the result in ez
+    
+    # 8) **(1 PT)** Compute the mean of `z`.  
+    # **Store final result in variable:** `mean_z`
+
+    mean_z = np.mean(z)  # Mean of z    
+    
+    # 9) **(1 PT)** Apply a mask to `z`, removing values less than 2. Call this `mz`, and store it.  
+    # **Store final result in variable:** `mz`
+
+    mz = z[z >= 2]  # Conditional mask to remove values less than 2
+    
+    # 10) **(1 PT)** Compute the mean and standard deviation of `mz`, Storing them as a tuple like `(m, s)` for mean and standard deviation, respectively.  
+    # **Store mean in:** `mean_mz`  
+    # **Store standard deviation in:** `std_mz`
+
+    mean_mz = np.mean(mz)  # Mean of mz
+    std_mz = np.std(mz)    # Standard deviation of mz
+
+    mz_stats = (mean_mz, std_mz)  # Tuple of mean and standard deviation of mz
+   
+    # 11) **(1 PT)** Given `mz`, set all values less than 2.4 equal to 2.4 (apply a floor), and set all values greater than 2.6 to 2.6 (apply a ceiling). Call this variable `cz` and store the values.  
+    # **Store final result in variable:** `cz`
+
+    cz = np.clip(mz, 2.4, 2.6)  # Apply floor and ceiling to mz
+    
+    # **SIMULATION EXERCISES**
+    # 12) **(1 PT)** Draw 100 random values from a standard normal distribution, using SEED = 314.  
+    # **Store drawn values in:** `dev`
+    from numpy.random import seed
+    from numpy.random import normal
+    seed(314)
+    # compute cumulative sum: cum_sum
+    # **Store cumulative sum in:** `cum_sum`
+    # [https://mathworld.wolfram.com/CumulativeSum.html](https://mathworld.wolfram.com/CumulativeSum.html)
+    
+    dev = normal(loc=0, scale=1, size=100)  # Draw 100 random values from a standard normal distribution
+    cum_sum = np.cumsum(dev)  # Compute cumulative sum of random standard normal distribution values
+   
+    # 13) **(1 PT)** Write code to generate 10 random walks. For reproducibility, explicitly use seed=314.  
+    # **Store final result in variable:** `random_walks`
+    seed(314)
+    random_walks = []  # List to store the random walks
+    num_walks = 10  # Number of random walks
+    walk_length = 100  # Length of each walk
+    
+    for _ in range(num_walks):
+        steps = normal(loc=0, scale=1, size=walk_length)  # Generate random steps
+        walk = np.cumsum(steps)  # Compute cumulative sum to get the walk
+        random_walks.append(walk)  # Append the walk to the list
+
+    # Final dictionary for autograding do not modify
+    GRADING_RESULTS = {
+        "q1_arr_first_element": float(arr[0, 0]),
+        "q2_arr_shape": list(arr_shape),
+        "q3_subset_shape": list(arr_subset.shape),
+        "q4_transpose_shape": list(arr_transpose_shape),
+        "q5_z_mean": float(np.mean(z)),
+        "q6_eye_trace": float(np.trace(eye)),
+        "q7_ez_equals_z": bool(np.allclose(ez, z)),
+        "q8_mean_z": float(mean_z),
+        "q9_mz_length": int(len(mz)),
+        "q10_mean_std_mz": [float(mean_mz), float(std_mz)],
+        "q11_cz_min_max": [float(np.min(cz)), float(np.max(cz))],
+        "q12_dev_first_five": [float(x) for x in dev[:5]],
+        "q12_cumsum_last": float(cum_sum[-1]),
+        "q13_walks_count": len(random_walks),
+        "q13_first_walk_end": float(random_walks[0][-1])
+    }
+    
+    # Print the final JSON result
+    import json
+    print(json.dumps(GRADING_RESULTS, sort_keys=True))
