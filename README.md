@@ -35,14 +35,3 @@ TAs: Ryan Goudjil  and Md Khairul Islam
 Days & Time: Mondays/Wednesdays/Fridays:  10 AM - 10:50 AM ET 
 
 Location of Class: Data Science Building, Room 206
-
- 
-About the Instructor and TAs
-We have one instructor and two TAs for this course. Their names and emails are shown in the table below. Each TA is responsible for a specific category (e.g., grading, office hours, labs, etc.). Students should always contact the relevant TA first, as the primary point of contact regarding issues in each category. Instructor responds to lectures and oversees the course, and TAs can more quickly address your concern on homework and grading or escalate the situation to an instructor if necessary.
-
- 
-Name	Role	TA Category	Email	Zoom 
-Judy Fox	Instructor	-	ckw9mp@virginia.edu	https://virginia.zoom.us/my/j.fox
-Ryan Goudjil 	TA	Grading & Labs	kqs9vd@virginia.edu 	https://virginia.zoom.us/my/r.goudjil
-Md Khairul Islam	TA	Grading & Labs	 mi3se@virginia.edu 	https://virginia.zoom.us/my/khairulislam
- 
